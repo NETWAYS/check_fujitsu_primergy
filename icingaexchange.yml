@@ -1,9 +1,9 @@
-name: 
+name: check_fujitsu_primergy
 description: "file:///README.md"
 url: "https://www.netways.org/projects/plugins"
 tags: ~
-vendor: Netways
-target: Temperature
+vendor: Fujitsu,NETWAYS
+target: Hardware
 type: Plugin
 license: gplv2
 releases: 

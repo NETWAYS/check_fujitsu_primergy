@@ -80,7 +80,7 @@ Checks a Fujitsu server using SNMP.
 
 =head1 OPTIONS
 
-=over 4
+=over 9
 
 =item -H|--host=<name-or-ip>
 
@@ -128,6 +128,8 @@ Print version an exit.
 
 Print help message and exit.
 
+=back 
+
 =cut
 
 
@@ -144,7 +146,7 @@ sub printResultAndExit {
 
 	my $exitVal = shift;
 
-	print "@_" if (defined @_);
+	print "@_" if (@_);
 
 	print "\n";
 
