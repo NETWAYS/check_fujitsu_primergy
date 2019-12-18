@@ -173,7 +173,7 @@ sub getSNMPRequest {
 
 
 # version string
-my $version = '0.3';
+my $version = '1.1';
 
 
 # define states
