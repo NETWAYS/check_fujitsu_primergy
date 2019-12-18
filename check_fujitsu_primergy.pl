@@ -1,40 +1,40 @@
 #!/usr/bin/perl -w
 
 # COPYRIGHT:
-#  
-# This software is Copyright (c) 2007 NETWAYS GmbH, Christian Doebler 
+#
+# This software is Copyright (c) 2007 NETWAYS GmbH, Christian Doebler
 #                                <support@netways.de>
-# 
+#
 # (Except where explicitly superseded by other copyright notices)
-# 
-# 
+#
+#
 # LICENSE:
-# 
+#
 # This work is made available to you under the terms of Version 2 of
 # the GNU General Public License. A copy of that license should have
 # been provided with this software, but in any event can be snarfed
 # from http://www.fsf.org.
-# 
+#
 # This work is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 # General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301 or visit their web page on the internet at
 # http://www.fsf.org.
-# 
-# 
+#
+#
 # CONTRIBUTION SUBMISSION POLICY:
-# 
+#
 # (The following paragraph is not intended to limit the rights granted
 # to you to modify and distribute this software under the terms of
 # the GNU General Public License and is only of importance to you if
 # you choose to contribute your changes and enhancements to the
 # community by submitting them to NETWAYS GmbH.)
-# 
+#
 # By intentionally submitting any modifications, corrections or
 # derivatives to this work, or any other work intended for use with
 # this Software, to NETWAYS GmbH, you confirm that
@@ -54,8 +54,8 @@
 
 
 #
-# please test your changes to this code for compliance with the syntax 
-# rules of the nagios embedded perl interpreter. please run it from 
+# please test your changes to this code for compliance with the syntax
+# rules of the nagios embedded perl interpreter. please run it from
 # within npi-new which you can find in the contrib dir of your nagios
 # distibution.
 #
@@ -75,7 +75,7 @@ check_fujitsu_primergy.pl -H|--host=<host> -C|--community=<SNMP community string
              [-v|--verbose=<>verbosity level>]
              [-e|--exclude=<subsystems to exclude from checks>]
              [-h|--help] [-V|--version]
-  
+
 Checks a Fujitsu server using SNMP.
 
 =head1 OPTIONS
@@ -128,7 +128,7 @@ Print version an exit.
 
 Print help message and exit.
 
-=back 
+=back
 
 =cut
 
@@ -142,32 +142,32 @@ use Net::SNMP;
 
 sub printResultAndExit {
 
-	# print check result and exit
+    # print check result and exit
 
-	my $exitVal = shift;
+    my $exitVal = shift;
 
-	print "@_" if (@_);
+    print "@_" if (@_);
 
-	print "\n";
+    print "\n";
 
-	# stop timeout
-	alarm(0);
+    # stop timeout
+    alarm(0);
 
-	exit($exitVal);
+    exit($exitVal);
 }
 
 sub getSNMPRequest {
 
-	my $oid = shift;
+    my $oid = shift;
 
-	print 'Checking OID \'' . $oid . '\'... ' if ($main::verbose >= 100);
+    print 'Checking OID \'' . $oid . '\'... ' if ($main::verbose >= 100);
 
-	my $result = $main::session->get_request($oid);
-	printResultAndExit(3, "UNKNOWN", 'Error: get_request(): ' . $main::session->error) unless (defined $result);
+    my $result = $main::session->get_request($oid);
+    printResultAndExit(3, "UNKNOWN", 'Error: get_request(): ' . $main::session->error) unless (defined $result);
 
-	print 'result: ' . $result->{$oid} . "\n" if ($main::verbose >= 100);
+    print 'result: ' . $result->{$oid} . "\n" if ($main::verbose >= 100);
 
-	return $result->{$oid};
+    return $result->{$oid};
 
 }
 
@@ -199,12 +199,12 @@ my $oidSubSysCnt = $oidPrefix . '3.2.0';
 my $oidSubSys = $oidPrefix . '3.1.1';
 my $oidSubSysDisplayName = $oidPrefix . '.4.1.1.5';
 my @sysStat = (
-	'dummy',
-	'OK',
-	'DEGRADED',
-	'ERROR',
-	'FAILED',
-	'UNKNOWN'
+    'dummy',
+    'OK',
+    'DEGRADED',
+    'ERROR',
+    'FAILED',
+    'UNKNOWN'
 );
 
 
@@ -215,10 +215,10 @@ my $oidEnvFanPurpose = $oidEnvFanPrefix . '4';
 my $oidEnvFanSpeed = $oidEnvFanPrefix . '8';
 my $oidEnvFanDesc = $oidEnvFanPrefix . '16';
 my @fanChecks = (
-	$oidEnvFanStatus,
-	$oidEnvFanPurpose,
-	$oidEnvFanSpeed,
-	$oidEnvFanDesc
+    $oidEnvFanStatus,
+    $oidEnvFanPurpose,
+    $oidEnvFanSpeed,
+    $oidEnvFanDesc
 );
 my $oidEnvTempPrefix = '1.3.6.1.4.1.231.2.10.2.2.5.2.1.1.';
 my $oidEnvTempStatus = $oidEnvTempPrefix . '3';
@@ -227,11 +227,11 @@ my $oidEnvTempCrit = $oidEnvTempPrefix . '8';
 my $oidEnvTempValue = $oidEnvTempPrefix . '11';
 my $oidEnvTempDesc = $oidEnvTempPrefix . '13';
 my @tempChecks = (
-	$oidEnvTempStatus,
-	$oidEnvTempValue,
-	$oidEnvTempWarn,
-	$oidEnvTempCrit,
-	$oidEnvTempDesc
+    $oidEnvTempStatus,
+    $oidEnvTempValue,
+    $oidEnvTempWarn,
+    $oidEnvTempCrit,
+    $oidEnvTempDesc
 );
 
 
@@ -288,226 +288,226 @@ my $subsys_cnt = undef;
 my @fans = ();
 my @temps = ();
 my @subsys_stati = (
-	{},
-	{
-		'displayname'	=> 'Environment',
-	},
-	{
-		'displayname' => 'PowerSupply',
-	},
-	{
-		'displayname' => 'MassStorage',
-	},
-	{
-		'displayname' => 'SystemBoard',
-	}
+    {},
+    {
+        'displayname'   => 'Environment',
+    },
+    {
+        'displayname' => 'PowerSupply',
+    },
+    {
+        'displayname' => 'MassStorage',
+    },
+    {
+        'displayname' => 'SystemBoard',
+    }
 );
 
 
 # get command-line parameters
 GetOptions(
-   "H|host=s"		=> \$host,
-   "C|community=s"	=> \$community,
-   "t|timeout=i"	=> \$timeout,
-   "fan-warning=i"	=> \$fanWarning,
-   "fan-critical=i"	=> \$fanCritical,
-   "v|verbose=i"	=> \$main::verbose,
-   "blade"		=> \$optBlade,
-   "e|exclude=s"	=> \$exclude,
-   "V|version"		=> \$showVersion,
-   "h|help"			=> \$help,
+   "H|host=s"       => \$host,
+   "C|community=s"  => \$community,
+   "t|timeout=i"    => \$timeout,
+   "fan-warning=i"  => \$fanWarning,
+   "fan-critical=i" => \$fanCritical,
+   "v|verbose=i"    => \$main::verbose,
+   "blade"      => \$optBlade,
+   "e|exclude=s"    => \$exclude,
+   "V|version"      => \$showVersion,
+   "h|help"         => \$help,
 ) or pod2usage({
-	-msg     => "\n" . 'Invalid argument!' . "\n",
-	-verbose => 1,
-	-exitval => 3
+    -msg     => "\n" . 'Invalid argument!' . "\n",
+    -verbose => 1,
+    -exitval => 3
 });
 
 
 # check command-line parameters
 pod2usage(
-	-verbose => 2,
-	-exitval => 3,
+    -verbose => 2,
+    -exitval => 3,
 ) if ($help || !$argvCnt);
 
 pod2usage(
-	-msg		=> "\n$0" . ' - version: ' . $version . "\n",
-	-verbose	=> 1,
-	-exitval	=> 3,
+    -msg        => "\n$0" . ' - version: ' . $version . "\n",
+    -verbose    => 1,
+    -exitval    => 3,
 ) if ($showVersion);
 
 pod2usage(
-	-msg		=> "\n" . 'No host specified!' . "\n",
-	-verbose	=> 1,
-	-exitval	=> 3
+    -msg        => "\n" . 'No host specified!' . "\n",
+    -verbose    => 1,
+    -exitval    => 3
 ) if ($host eq '');
 
 pod2usage(
-	-msg		=> "\n" . 'No community specified!' . "\n",
-	-verbose	=> 1,
-	-exitval	=> 3
+    -msg        => "\n" . 'No community specified!' . "\n",
+    -verbose    => 1,
+    -exitval    => 3
 ) if ($community eq '');
 
 
 # set timeout
 local $SIG{ALRM} = sub {
-	print 'check_fujitsu_primergy: UNKNOWN: Timeout' . "\n";
-	exit(3);
+    print 'check_fujitsu_primergy: UNKNOWN: Timeout' . "\n";
+    exit(3);
 };
 alarm($timeout);
 
 
 # connect to SNMP host
 ($main::session, $error) = Net::SNMP->session(
-	Hostname	=> $host,
-	Community	=> $community
+    Hostname    => $host,
+    Community   => $community
 );
 printResultAndExit(3, "UNKNOWN", "Error: session(): $error") unless $main::session;
 
 
 if (defined $optBlade) {
-	my $bladestatus = getSNMPRequest($oidBladeStatusID);
-	$exitVal = $BladeErrorMap{$bladestatus};
-	$msg = "Global status is ";
-	if ($exitVal == 0) {
-		$msg .= "OK";
-	} else {
-		$msg .= "FAILURE";
-	}
+    my $bladestatus = getSNMPRequest($oidBladeStatusID);
+    $exitVal = $BladeErrorMap{$bladestatus};
+    $msg = "Global status is ";
+    if ($exitVal == 0) {
+        $msg .= "OK";
+    } else {
+        $msg .= "FAILURE";
+    }
 } else {
-	# fetch ServerID
-	$serverID = getSNMPRequest($oidServerID);
-	# fetch global state
-	$globalResult = getSNMPRequest($oidSysStat);
-	
-	#get Powerconsumption if enabled
-	$powerConsumption = getSNMPRequest($oidpowerconsumption);
-	if ($powerConsumption =~ m/(\d+)/) {
-		$powerConsumption =~ m/>(\d+)</i;
-		$powerConsumption = $1;
-	} else {
-		$powerConsumption = "N/A";
-	}
-	$perfdata .= ' PowerConsumption=' . $powerConsumption;
-	$perfdata .= 'Watt' if ($powerConsumption ne "N/A") ;
-	
-	# set exit value
-	if ($globalResult eq '1') {
-		$exitVal = 0;
-	} elsif ($globalResult eq '2') {
-		$exitVal = 1;
-	} elsif ($globalResult eq '3' || $globalResult eq '4') {
-		$exitVal = 2;
-	} else {
-		$exitVal = 3;
-	}
-	
-	
-	# prepare subsystems to exclude
-	$exclude =~ s/^\s*|\s$//g;
-	$exclude =~ s/\s*,\s*/,/g;
-	my @exclude_arr = split(',', $exclude);
-	
-	
-	# get subsystem information
-	$subsys_cnt = getSNMPRequest($oidSubSysCnt);
-	my @msg_arr = ();
-	
-	for (my $x = 1; $x <= $subsys_cnt; $x++) {
-	
-		$result = getSNMPRequest($oidSubSys . '.3.' . $x);
-	
-		my $subsys_name = getSNMPRequest($oidSubSys . '.2.' . $x) if ($result ne '1');
-	
-		next if ((defined($subsys_name) && grep(/^$subsys_name$/, @exclude_arr)));
-		next if ($result eq '5');
-	
-		if (defined($subsys_stati[$x]->{'displayname'})) {
-			next if (grep(/^$subsys_stati[$x]->{'displayname'}$/, @exclude_arr));
-			push(@msg_arr, $subsys_stati[$x]->{'displayname'} . '(' . $sysStat[$result] . ')');
-		}
-	
-		if ($result > $globalResult) {
-			if ($result eq '1') {
-				$exitVal = 0 if (!$exitVal);
-			} elsif ($result eq '2') {
-				$exitVal = 1 if ($exitVal <= 1);
-			} elsif ($result eq '3' || $globalResult eq '4') {
-				$exitVal = 2 if ($exitVal <= 2);
-			} else {
-				$exitVal = 3 if ($exitVal <= 3);
-			}
-		}
-	
-		$error .= ' ' . $subsys_name . '(' . $sysStat[$result] . '),' if ($result ne '1');
-	
-	}
-	
-	$msg = "ID: " . $serverID . ' - ';
-	$msg .= join(' - ', @msg_arr);
-	
-	chomp($msg);
-	chop($error);
-	
-	
-	
-	$fresult = $main::session->get_entries( -columns => \@fanChecks );
-	
-	# store fetched data
-	foreach my $snmpkey ( keys %{$fresult} ) {
-		push(@fans, $1) if ($snmpkey =~ m/$oidEnvFanStatus.(\d+\.\d+)/);
-	}
-	
-	# sort fetched data
-	@fans = Net::SNMP::oid_lex_sort(@fans);
-	foreach $fanID (@fans) {
-	
-		$fanPurpose = $$fresult{$oidEnvFanPurpose . '.' . $fanID};
-		$fanStatus  = $$fresult{$oidEnvFanStatus . '.' . $fanID};
-		next if ($fanStatus eq '99' or $fanStatus eq '2' or $fanStatus eq '8');
-	
-		$fanSpeed = $$fresult{$oidEnvFanSpeed . '.' . $fanID};
-	
-		$perfdata .= ' ' . $fanPurpose[$fanPurpose] . $fanID . '=' . $fanSpeed . 'rpm';
-		$fan_msg .= "\n" . $fanStatus[$fanStatus] . ': '. $fanPurpose[$fanPurpose] . ' (' . $fanSpeed . 'rpm),';
-	
-		if ($fanSpeed <= $fanCritical) {
-			$exitVal = 2;
-		} elsif ($fanSpeed <= $fanWarning) {
-			$exitVal = 1 if ($exitVal != 2);
-		}
-	}
-	
-	# now check the temperatures
-	
-	$tresult = $main::session->get_entries( -columns => \@tempChecks );
-	
-	# store fetched data
-	foreach my $snmpkey ( keys %{$tresult} ) {
-		push(@temps, $1) if ($snmpkey =~ m/$oidEnvTempStatus.(\d+\.\d+)/);
-	}
-	
-	# sort fetched data
-	@temps = Net::SNMP::oid_lex_sort(@temps);
-	foreach my $tempID (@temps) {
-	
-		my $tempStatus  = $$tresult{$oidEnvTempStatus . '.' . $tempID};
-	
-		next if ($tempStatus eq '99' or $tempStatus eq '2');
-		my $tempValue = $$tresult{$oidEnvTempValue . '.' . $tempID};
-		my $tempWarn = $$tresult{$oidEnvTempWarn . '.' . $tempID};
-		my $tempCrit = $$tresult{$oidEnvTempCrit . '.' . $tempID};
-		my $tempDesc = $$tresult{$oidEnvTempDesc . '.' . $tempID};
-		$tempDesc =~ s/[ ,;=]/_/g;
-	
-		$perfdata .= ' ' . $tempDesc . '=' .$tempValue.'C;' . $tempWarn . ';' . $tempCrit .'';
-		$temp_msg .= "\n". $tempStatus[$tempStatus] . ": $tempDesc is $tempValue C";
-	
-		if ($tempCrit > 0  and $tempValue >= $tempCrit) {
-			$exitVal = 2;
-		} elsif ($tempWarn > 0 and $tempValue >= $tempWarn) {
-			$exitVal = 1 if ($exitVal != 2);
-		} 
-	}
+    # fetch ServerID
+    $serverID = getSNMPRequest($oidServerID);
+    # fetch global state
+    $globalResult = getSNMPRequest($oidSysStat);
+
+    #get Powerconsumption if enabled
+    $powerConsumption = getSNMPRequest($oidpowerconsumption);
+    if ($powerConsumption =~ m/(\d+)/) {
+        $powerConsumption =~ m/>(\d+)</i;
+        $powerConsumption = $1;
+    } else {
+        $powerConsumption = "N/A";
+    }
+    $perfdata .= ' PowerConsumption=' . $powerConsumption;
+    $perfdata .= 'Watt' if ($powerConsumption ne "N/A") ;
+
+    # set exit value
+    if ($globalResult eq '1') {
+        $exitVal = 0;
+    } elsif ($globalResult eq '2') {
+        $exitVal = 1;
+    } elsif ($globalResult eq '3' || $globalResult eq '4') {
+        $exitVal = 2;
+    } else {
+        $exitVal = 3;
+    }
+
+
+    # prepare subsystems to exclude
+    $exclude =~ s/^\s*|\s$//g;
+    $exclude =~ s/\s*,\s*/,/g;
+    my @exclude_arr = split(',', $exclude);
+
+
+    # get subsystem information
+    $subsys_cnt = getSNMPRequest($oidSubSysCnt);
+    my @msg_arr = ();
+
+    for (my $x = 1; $x <= $subsys_cnt; $x++) {
+
+        $result = getSNMPRequest($oidSubSys . '.3.' . $x);
+
+        my $subsys_name = getSNMPRequest($oidSubSys . '.2.' . $x) if ($result ne '1');
+
+        next if ((defined($subsys_name) && grep(/^$subsys_name$/, @exclude_arr)));
+        next if ($result eq '5');
+
+        if (defined($subsys_stati[$x]->{'displayname'})) {
+            next if (grep(/^$subsys_stati[$x]->{'displayname'}$/, @exclude_arr));
+            push(@msg_arr, $subsys_stati[$x]->{'displayname'} . '(' . $sysStat[$result] . ')');
+        }
+
+        if ($result > $globalResult) {
+            if ($result eq '1') {
+                $exitVal = 0 if (!$exitVal);
+            } elsif ($result eq '2') {
+                $exitVal = 1 if ($exitVal <= 1);
+            } elsif ($result eq '3' || $globalResult eq '4') {
+                $exitVal = 2 if ($exitVal <= 2);
+            } else {
+                $exitVal = 3 if ($exitVal <= 3);
+            }
+        }
+
+        $error .= ' ' . $subsys_name . '(' . $sysStat[$result] . '),' if ($result ne '1');
+
+    }
+
+    $msg = "ID: " . $serverID . ' - ';
+    $msg .= join(' - ', @msg_arr);
+
+    chomp($msg);
+    chop($error);
+
+
+
+    $fresult = $main::session->get_entries( -columns => \@fanChecks );
+
+    # store fetched data
+    foreach my $snmpkey ( keys %{$fresult} ) {
+        push(@fans, $1) if ($snmpkey =~ m/$oidEnvFanStatus.(\d+\.\d+)/);
+    }
+
+    # sort fetched data
+    @fans = Net::SNMP::oid_lex_sort(@fans);
+    foreach $fanID (@fans) {
+
+        $fanPurpose = $$fresult{$oidEnvFanPurpose . '.' . $fanID};
+        $fanStatus  = $$fresult{$oidEnvFanStatus . '.' . $fanID};
+        next if ($fanStatus eq '99' or $fanStatus eq '2' or $fanStatus eq '8');
+
+        $fanSpeed = $$fresult{$oidEnvFanSpeed . '.' . $fanID};
+
+        $perfdata .= ' ' . $fanPurpose[$fanPurpose] . $fanID . '=' . $fanSpeed . 'rpm';
+        $fan_msg .= "\n" . $fanStatus[$fanStatus] . ': '. $fanPurpose[$fanPurpose] . ' (' . $fanSpeed . 'rpm),';
+
+        if ($fanSpeed <= $fanCritical) {
+            $exitVal = 2;
+        } elsif ($fanSpeed <= $fanWarning) {
+            $exitVal = 1 if ($exitVal != 2);
+        }
+    }
+
+    # now check the temperatures
+
+    $tresult = $main::session->get_entries( -columns => \@tempChecks );
+
+    # store fetched data
+    foreach my $snmpkey ( keys %{$tresult} ) {
+        push(@temps, $1) if ($snmpkey =~ m/$oidEnvTempStatus.(\d+\.\d+)/);
+    }
+
+    # sort fetched data
+    @temps = Net::SNMP::oid_lex_sort(@temps);
+    foreach my $tempID (@temps) {
+
+        my $tempStatus  = $$tresult{$oidEnvTempStatus . '.' . $tempID};
+
+        next if ($tempStatus eq '99' or $tempStatus eq '2');
+        my $tempValue = $$tresult{$oidEnvTempValue . '.' . $tempID};
+        my $tempWarn = $$tresult{$oidEnvTempWarn . '.' . $tempID};
+        my $tempCrit = $$tresult{$oidEnvTempCrit . '.' . $tempID};
+        my $tempDesc = $$tresult{$oidEnvTempDesc . '.' . $tempID};
+        $tempDesc =~ s/[ ,;=]/_/g;
+
+        $perfdata .= ' ' . $tempDesc . '=' .$tempValue.'C;' . $tempWarn . ';' . $tempCrit .'';
+        $temp_msg .= "\n". $tempStatus[$tempStatus] . ": $tempDesc is $tempValue C";
+
+        if ($tempCrit > 0  and $tempValue >= $tempCrit) {
+            $exitVal = 2;
+        } elsif ($tempWarn > 0 and $tempValue >= $tempWarn) {
+            $exitVal = 1 if ($exitVal != 2);
+        }
+    }
 }
 
 
@@ -517,11 +517,10 @@ $main::session->close;
 
 # print check result and exit
 printResultAndExit(
-	$exitVal, 
-	$state[$exitVal], 
-	($main::verbose > 0) ? '' : (($error  ne '') ? ' -' . $error         : ''),
-	($msg    ne '') ? $msg          : '',
-	' |'. $perfdata,
-	($main::verbose >= 2) ? $fan_msg . $temp_msg : ''
+    $exitVal,
+    $state[$exitVal],
+    ($main::verbose > 0) ? '' : (($error  ne '') ? ' -' . $error         : ''),
+    ($msg    ne '') ? $msg          : '',
+    ' |'. $perfdata,
+    ($main::verbose >= 2) ? $fan_msg . $temp_msg : ''
 );
-
