@@ -388,7 +388,6 @@ if (defined $optBlade) {
         $powerConsumption = "N/A";
     }
     $perfdata .= ' PowerConsumption=' . $powerConsumption;
-    $perfdata .= 'Watt' if ($powerConsumption ne "N/A") ;
 
     # set exit value
     if ($globalResult eq '1') {
@@ -467,7 +466,7 @@ if (defined $optBlade) {
 
         $fanSpeed = $$fresult{$oidEnvFanSpeed . '.' . $fanID};
 
-        $perfdata .= ' ' . $fanPurpose[$fanPurpose] . $fanID . '=' . $fanSpeed . 'rpm';
+        $perfdata .= ' fan_' . $fanPurpose[$fanPurpose] . $fanID . '=' . $fanSpeed;
         $fan_msg .= "\n" . $fanStatus[$fanStatus] . ': '. $fanPurpose[$fanPurpose] . ' (' . $fanSpeed . 'rpm),';
 
         if ($fanSpeed <= $fanCritical) {
@@ -499,7 +498,7 @@ if (defined $optBlade) {
         my $tempDesc = $$tresult{$oidEnvTempDesc . '.' . $tempID};
         $tempDesc =~ s/[ ,;=]/_/g;
 
-        $perfdata .= ' ' . $tempDesc . '=' .$tempValue.'C;' . $tempWarn . ';' . $tempCrit .'';
+        $perfdata .= ' temp_' . $tempDesc . '=' .$tempValue.'C;' . $tempWarn . ';' . $tempCrit;
         $temp_msg .= "\n". $tempStatus[$tempStatus] . ": $tempDesc is $tempValue C";
 
         if ($tempCrit > 0  and $tempValue >= $tempCrit) {
